@@ -1,3 +1,4 @@
+import logging
 import os
 from datetime import datetime, timedelta
 from random import choice, randint
@@ -192,7 +193,10 @@ def continue_filter(callback: CallbackQuery):
 # ROUTER
 @router.message(CommandStart())
 async def cmd_start(message: Message):
-    await message.bot.send_message(CHAT_ID, f'NewUser: @{message.from_user.username}')
+    try:
+        await message.bot.send_message(CHAT_ID, f'NewUser: @{message.from_user.username}')
+    except Exception as e:
+        logging.info(e)
     await message.answer(MessageText.start_memalias, reply_markup=get_main_keyboard())
     await get_rules(message=message)
 
